@@ -1,4 +1,5 @@
 {
     "mongoURI": "mongodb+srv://Brent:L211f9twR@cluster0.ckkyp.mongodb.net/mern?retryWrites=true&w=majority",
-    "jwtSecret": "mysecrettoken"
+    "jwtSecret": "mysecrettoken",
+    "githubToken": "a48d5d93c5246db542be3d2c6f0376e6608f0d49"
 }
