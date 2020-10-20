@@ -29,12 +29,8 @@ router.get('/me', auth, async (req, res) => {
 // @desc    Create or Update user profile
 // @access  Private
 router.post('/', [auth, [
-    check('status', 'Status is required')
-    .not()
-    .isEmpty(),
-    check('skills', 'Skills is required')
-    .not()
-    .isEmpty()
+    check('status', 'Status is required').not().isEmpty(),
+    check('skills', 'Skills is required').not().isEmpty()
 
 ]], async (req, res) => {
     const errors = validationResult(req);
@@ -108,7 +104,7 @@ router.get('/', async (req,res) => {
         console.error(err.message);
         res.status(500).send('Server Error');
     }
-})
+});
 
 // @route   GET api/profile/user/:user_id
 // @desc    Get profile by user ID
