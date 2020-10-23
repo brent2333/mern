@@ -7,6 +7,8 @@ const { check, validationResult } = require('express-validator');
 const request = require('request');
 const config = require('config');
 const { restart } = require('nodemon');
+const normalize = require('normalize-url');
+
 
 // @route   GET api/profile/me
 // @desc    Get current users profile
@@ -52,17 +54,18 @@ router.post('/', [auth, [
         linkedin
     } = req.body;
     // build profile object
-    const profileFields = {};
-    profileFields.user = req.user.id;
-    if (company) profileFields.company = company;
-    if (website) profileFields.website = website;
-    if (location) profileFields.location = location;
-    if (bio) profileFields.bio = bio;
-    if (status) profileFields.status = status;
-    if (githubusername) profileFields.githubusername = githubusername;
-    if (skills) {
-        profileFields.skills = skills.split(',').map(skill => skill.trim());
-    }
+    const profileFields = {
+        user: req.user.id,
+        company,
+        location,
+        website: website && website !== '' ? normalize(website, { forceHttps: true }) : '',
+        bio,
+        skills: Array.isArray(skills)
+          ? skills
+          : skills.split(',').map((skill) => ' ' + skill.trim()),
+        status,
+        githubusername
+      };
 
     // build social object
     profileFields.social = {};
