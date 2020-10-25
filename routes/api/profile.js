@@ -1,13 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const request = require('request');
+const { restart } = require('nodemon');
+const { check, validationResult } = require('express-validator');
+const normalize = require('normalize-url');
+
+const config = require('config');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+const Post = require('../../models/Post');
 const auth = require('../../middleware/auth');
-const { check, validationResult } = require('express-validator');
-const request = require('request');
-const config = require('config');
-const { restart } = require('nodemon');
-const normalize = require('normalize-url');
+
 
 
 // @route   GET api/profile/me
@@ -131,8 +134,8 @@ router.get('/user/:user_id', async (req,res) => {
 // @access  Private
 router.delete('/', auth, async (req,res) => {
     try {
-        // @todo - remove users posts
-
+        // remove users posts
+        await Post.deleteMany( {user: req.user.id});
         //remove profile
         await Profile.findOneAndRemove({ user: req.user.id });
 
