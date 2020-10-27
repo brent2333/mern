@@ -30,7 +30,6 @@ const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
   },[]);
-  //empty brackets means run once only, only on mount
   return (
   <Provider store={store}>
   <Router>
@@ -59,6 +58,5 @@ const App = () => {
     </Provider>
   );
 }
-
 
 export default App;
